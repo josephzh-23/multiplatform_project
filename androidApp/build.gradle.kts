@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.example.multi_platform_android_project.android"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.example.multi_platform_android_project.android"
         minSdk = 24

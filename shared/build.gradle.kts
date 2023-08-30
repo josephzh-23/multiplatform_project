@@ -1,10 +1,12 @@
 import org.gradle.api.internal.initialization.ClassLoaderIds.buildScript
-import org.jetbrains.kotlin.gradle.internal.kapt.incremental.UnknownSnapshot.classpath
 
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+
+    // Need to add the versino here very important here
+    id("dev.icerock.mobile.multiplatform-resources") version "0.23.0"
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -29,6 +31,10 @@ kotlin {
 
             // so the code can be found in the xcode code base here
             isStatic = true
+
+            // Resourcs; So resources can be found on the ios side here
+            export("dev.icerock.moko:resources:0.22.3")
+            export("dev.icerock.moko.graphics:0.9.0")
         }
     }
 
@@ -40,6 +46,7 @@ kotlin {
                 //put your multiplatform dependencies here
             // where we put the multiplatform stuff right here
 
+                api("dev.icerock.moko:resources:0.22.3")
                 implementation(compose.ui)  //used with imageResource
                 // Add the code here
                 implementation(compose.runtime)
@@ -49,6 +56,8 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
 
+                // For compose testing here thank you
+                implementation("org.jetbrains.kotlinx:atomicfu:0.17.3") // 手动添加
             }
         }
         val commonTest by getting {
@@ -61,15 +70,15 @@ kotlin {
 
 android {
     namespace = "com.example.multi_platform_android_project"
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 24
     }
 
     // Define in the common main here
-    sourceSets["commonMain"].apply {
-        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
-    }
+//    sourceSets["commonMain"].apply {
+//        res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+//    }
 
 
 
@@ -82,18 +91,22 @@ dependencies {
 // Use a mocko plugin as we said before here for sharing the ocmmon
 // resource here
 
-org.jetbrains.kotlin.fir.declarations.builder.buildScript{
-    dependencies{
+// Using for sharing common resoucres here
+
+buildscript {
+    dependencies {
         classpath("dev.icerock.moko:resources-generator:0.22.3")
-
-        // Using this here
     }
-
 }
 
 
+// Compile things from xml to the actual code here
 
-
+// The plugin for this needs to be added at the top here
+//multiplatformResources {
+//    multiplatformResourcesPackage = "com.plcoding.kmm_sharingresources"
+//    multiplatformResourcesClassName = "SharedRes"
+//}
 
 
 
