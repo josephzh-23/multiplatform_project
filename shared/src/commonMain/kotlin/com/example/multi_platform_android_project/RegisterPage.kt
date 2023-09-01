@@ -41,13 +41,13 @@ import org.jetbrains.compose.resources.painterResource
 // This will be the register page here and we will have many files in here
 
 // These are some of the imorgtant code that we can have here
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class,
     ExperimentalResourceApi::class
 )
 @Composable
 fun LoginPage() {
 
-//    val image = painterResource(R.drawable)
 
     val scrollState = rememberScrollState()
     val emailValue = remember { mutableStateOf("") }
@@ -82,7 +82,7 @@ fun LoginPage() {
                     text = "Sign In",
                     style = TextStyle(
                         fontWeight = FontWeight.Bold,
-                        letterSpacing =2.sp
+                        letterSpacing = 2.sp
                     ),
                     fontSize = 30.sp
                 )
@@ -97,8 +97,8 @@ fun LoginPage() {
                     OutlinedTextField(
                         value = emailValue.value,
                         onValueChange = { emailValue.value = it },
-                        label = {Text(text = "Email Address")} ,
-                        placeholder =  {Text(text = "Email Address")} ,
+                        label = { Text(text = "Email Address") },
+                        placeholder = { Text(text = "Email Address") },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(0.8f),
                     )
