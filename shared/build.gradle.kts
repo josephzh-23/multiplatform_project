@@ -37,7 +37,8 @@ kotlin {
             export("dev.icerock.moko.graphics:0.9.0")
         }
     }
-
+    val ktorVersion = "2.3.2"
+    val dateTimeVersion = "0.4.0"
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -69,9 +70,28 @@ kotlin {
                 implementation("dev.icerock.moko:mvvm-flow-resources:0.16.1") // api mvvm-core, moko-resources, extensions for Flow with moko-resources
 
 
+                // Network stuff
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation ("ch.qos.logback:logback-classic:1.2.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$dateTimeVersion")
+
             }
         }
-        val commonTest by getting {
+        val androidMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
+            }
+        }
+        val iosMain by getting {
+            // ...
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+            }}
+            val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
