@@ -4,6 +4,6 @@ object HttpRoutes {
 
     private const val BASE_URL = ""
 
-    // Just for getting a list of students here 
+    // Just for getting a list of students here
     const val STUDENTS = "$BASE_URL/students"
 }

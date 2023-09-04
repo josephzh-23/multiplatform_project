@@ -37,6 +37,7 @@ kotlin {
             export("dev.icerock.moko.graphics:0.9.0")
         }
     }
+    // Be careful of the following right ehre
     val ktorVersion = "2.3.2"
     val dateTimeVersion = "0.4.0"
     sourceSets {
@@ -73,9 +74,16 @@ kotlin {
                 // Network stuff
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+
+                // Need this to use the JsonFeature using this in Android main
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
 
                 implementation("io.ktor:ktor-client-logging:$ktorVersion")
+                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+
+
+
+
                 implementation ("ch.qos.logback:logback-classic:1.2.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$dateTimeVersion")
 
@@ -89,7 +97,8 @@ kotlin {
         val iosMain by getting {
             // ...
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation("io.ktor:ktor-client-ios:$ktorVersion")
+
             }}
             val commonTest by getting {
             dependencies {
@@ -117,6 +126,7 @@ android {
 dependencies {
     implementation("androidx.compose.ui:ui-android:1.6.0-alpha04")
     implementation("androidx.navigation:navigation-runtime-ktx:2.6.0")
+    implementation("androidx.paging:paging-common-ktx:3.2.0")
 }
 
 // Use a mocko plugin as we said before here for sharing the ocmmon

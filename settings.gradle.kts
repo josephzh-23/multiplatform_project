@@ -7,6 +7,10 @@ pluginManagement {
         // Step 5:
 
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+
+
+        // Needed for kotlin x seriliazer
+        maven(url = "https://kotlin.bintray.com/kotlinx/")
     }
 
 
