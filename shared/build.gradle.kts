@@ -29,10 +29,6 @@ kotlin {
 
             // so the code can be found in the xcode code base here
             isStatic = true
-
-            // Resourcs; So resources can be found on the ios side here
-            export("dev.icerock.moko:resources:0.22.3")
-            export("dev.icerock.moko.graphics:0.9.0")
         }
     }
     // Be careful of the following right ehre
@@ -111,8 +107,15 @@ kotlin {
                 implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
             }
         }
+        val iosX64Main by getting
+        val iosArm64Main by getting
+//        val iosSimulatorArm64Main by getting
         val iosMain by getting {
             // ...
+            dependsOn(commonMain)
+            iosX64Main.dependsOn(this)
+            iosArm64Main.dependsOn(this)
+//            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 implementation("io.ktor:ktor-client-ios:$ktorVersion")
 
