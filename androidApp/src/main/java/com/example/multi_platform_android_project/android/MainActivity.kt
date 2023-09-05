@@ -33,21 +33,17 @@ import com.example.multi_platform_android_project.Greeting
 import com.example.multi_platform_android_project.RegisterViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.multi_platform_android_project.Helper.update
+import com.example.multi_platform_android_project.MainView
 import com.example.multi_platform_android_project.Registration.RegistrationFormEvent
+import moe.tlaster.precompose.lifecycle.PreComposeActivity
+import moe.tlaster.precompose.lifecycle.setContent
 
-class MainActivity : ComponentActivity() {
+class MainActivity : PreComposeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Becareful of the setcontent that's used here
         setContent {
-            MyApplicationTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-
-                    RegisterScreen()
-                }
-            }
+            MainView()
         }
     }
 }
@@ -57,7 +53,7 @@ class MainActivity : ComponentActivity() {
 fun RegisterScreen() {
 
 
-    val viewModel = viewModel<RegisterViewModel>()
+    val viewModel = RegisterViewModel()
 
     val value by viewModel.state.collectAsState()
     with(viewModel.state) {

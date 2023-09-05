@@ -1,5 +1,3 @@
-import org.gradle.api.internal.initialization.ClassLoaderIds.buildScript
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -16,7 +14,7 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
@@ -40,6 +38,8 @@ kotlin {
     // Be careful of the following right ehre
     val ktorVersion = "2.3.2"
     val dateTimeVersion = "0.4.0"
+
+    var koinVersion = "3.4.3"
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -49,6 +49,7 @@ kotlin {
             // where we put the multiplatform stuff right here
 
                 api("dev.icerock.moko:resources:0.22.3")
+                api("dev.icerock.moko:resources-compose:0.22.3")
                 implementation(compose.ui)  //used with imageResource
                 // Add the code here
                 implementation(compose.runtime)
@@ -63,12 +64,12 @@ kotlin {
 
 
                 // Viewmodel stuff here
-                implementation("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
-                implementation("dev.icerock.moko:mvvm-flow:0.16.1") // api mvvm-core, CFlow for native and binding extensions
-                implementation("dev.icerock.moko:mvvm-livedata:0.16.1") // api mvvm-core, LiveData and extensions
-                implementation("dev.icerock.moko:mvvm-state:0.16.1") // api mvvm-livedata, ResourceState class and extensions
-                implementation("dev.icerock.moko:mvvm-livedata-resources:0.16.1") // api mvvm-core, moko-resources, extensions for LiveData with moko-resources
-                implementation("dev.icerock.moko:mvvm-flow-resources:0.16.1") // api mvvm-core, moko-resources, extensions for Flow with moko-resources
+//                implementation("dev.icerock.moko:mvvm-core:0.16.1") // only ViewModel, EventsDispatcher, Dispatchers.UI
+//                implementation("dev.icerock.moko:mvvm-flow:0.16.1") // api mvvm-core, CFlow for native and binding extensions
+//                implementation("dev.icerock.moko:mvvm-livedata:0.16.1") // api mvvm-core, LiveData and extensions
+//                implementation("dev.icerock.moko:mvvm-state:0.16.1") // api mvvm-livedata, ResourceState class and extensions
+//                implementation("dev.icerock.moko:mvvm-livedata-resources:0.16.1") // api mvvm-core, moko-resources, extensions for LiveData with moko-resources
+//                implementation("dev.icerock.moko:mvvm-flow-resources:0.16.1") // api mvvm-core, moko-resources, extensions for Flow with moko-resources
 
 
                 // Network stuff
@@ -87,11 +88,27 @@ kotlin {
                 implementation ("ch.qos.logback:logback-classic:1.2.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:$dateTimeVersion")
 
+                // How to deal with the navigator in compose
+                api("moe.tlaster:precompose:1.5.0")
+                api("moe.tlaster:precompose-viewmodel:1.5.0")
+
+
+
+                // Imageloading
+                api("io.github.qdsfdhvh:image-loader:1.5.1")
+
+                // Using dependency injection
+                implementation("io.insert-koin:koin-core:$koinVersion")
+                implementation("io.insert-koin:koin-test:$koinVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
+
+                // Using koin here with the network stuff here very important
+                implementation("io.insert-koin:koin-android:$koinVersion")
+                implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
             }
         }
         val iosMain by getting {
@@ -121,6 +138,20 @@ android {
 //    }
 
 
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+//    defaultConfig {
+//        minSdk = (findProperty("android.minSdk") as String).toInt()
+//    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlin {
+        jvmToolchain(17)
+    }
 
 }
 dependencies {
