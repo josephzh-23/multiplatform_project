@@ -33,4 +33,6 @@ sealed class NavigationScreen(
                 .offset(x = 10.dp)
         )
     })
+
+    object Login : NavigationScreen("login_screen")
 }

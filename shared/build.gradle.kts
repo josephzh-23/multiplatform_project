@@ -100,6 +100,8 @@ kotlin {
                 // Using dependency injection
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.insert-koin:koin-test:$koinVersion")
+
+                implementation(compose.materialIconsExtended)
             }
         }
         val androidMain by getting {
@@ -127,7 +129,7 @@ kotlin {
 
 android {
     namespace = "com.example.multi_platform_android_project"
-    compileSdk = 34
+    compileSdk = 33
     defaultConfig {
         minSdk = 24
     }

@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.example.multi_platform_android_project.Login.LoginScreen
 import com.example.multi_platform_android_project.Network.MainPageViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import moe.tlaster.precompose.navigation.BackHandler
@@ -56,8 +57,12 @@ internal fun App(viewModel: MainPageViewModel = MainPageViewModel()) {
 fun Navigation(navigator: Navigator) {
     NavHost(
         navigator = navigator,
-        initialRoute = NavigationScreen.Home.route,
+        initialRoute = NavigationScreen.Login.route,
     ) {
+        scene(route = NavigationScreen.Login.route) {
+            LoginScreen(navigator)
+        }
+
         scene(route = NavigationScreen.Home.route) {
             HomeScreen(navigator)
         }

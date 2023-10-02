@@ -46,7 +46,7 @@ import org.jetbrains.compose.resources.painterResource
     ExperimentalResourceApi::class
 )
 @Composable
-fun LoginPage() {
+fun RegisterPage() {
 
 
     val scrollState = rememberScrollState()
